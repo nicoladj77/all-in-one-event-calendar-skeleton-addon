@@ -47,9 +47,80 @@ class Generator {
 	}
 
 	public function extract_md() {
-		$tokens = token_get_all( file_get_contents( $this->file ) );
-
+		$tokens  = token_get_all( file_get_contents( $this->file ) );
+        $digest  = '';
+        $content = 0;
+        $code    = '';
+        foreach ( $tokens as $token ) {
+            if ( $content > 0 ) {
+                $c_line = isset( $token[2] ) ? $token[2] : $content;
+                if ( $content >= $c_line ) {
+                    if ( is_array( $token ) && T_WHITESPACE === $token[0] && substr_count( $token[1], "\n" ) > 1 ) {
+                        $content = 0;
+                    }
+                    if ( $content === $c_line ) {
+                        $code .= ( isset( $token[1] ) ) ? $token[1] : $token;
+                    }
+                } else {
+                    if ( $code ) {
+                        $digest .= sprintf(
+                            "```php\n%s\n```\n",
+                            trim( $code )
+                        );
+                        $code = '';
+                    }
+                    $content = 0;
+                }
+            } elseif ( is_array( $token ) && T_DOC_COMMENT === $token[0] && false === strpos( $token[1], 'Plugin URI' ) ) {
+                $lines = preg_split( '|[\r\n]+|', $token[1] );
+                $chunk = $this->to_digest( $lines );
+                if ( $chunk ) {
+                    $digest .= $chunk;
+                    $content = $token[2] + count( $lines );
+                }
+            }
+        }
+        return trim( $digest );
 	}
+
+    public function to_digest( array $lines ) {
+        // @TODO: use ai1ec.registry to link to classes mentioned in '@param' and '@return'
+        $lines = array_slice( $lines, 1, -1 );
+        $lines = array_map(
+            [ $this, 'clean_line' ],
+            $lines
+        );
+        $result  = '';
+        $index   = 0;
+        while ( isset( $lines[$index] ) ) {
+            if (
+                preg_match( '|^[=\-]{4,}$|', $lines[$index] ) &&
+                isset( $lines[$index + 2] )
+            ) {
+                $title = implode(
+                    ' ',
+                    array_map(
+                        function( $word ) {
+                            return ucfirst( strtolower( $word ) );
+                        },
+                        explode( ' ', $lines[$index + 1] )
+                    )
+                );
+                $result .= "\n" . $title . "\n" .
+                    str_repeat( $lines[$index]{0}, strlen( $title ) ) .
+                    "\n";
+                $index += 2;
+            } else {
+                $result .= $lines[$index] . "\n";
+            }
+            ++$index;
+        }
+        return $result;
+    }
+
+    public function clean_line( $line ) {
+        return trim( substr( $line, 3 ) );
+    }
 
 }
 
