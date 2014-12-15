@@ -55,7 +55,16 @@ class Generator {
             if ( $content > 0 ) {
                 $c_line = isset( $token[2] ) ? $token[2] : $content;
                 if ( $content >= $c_line ) {
-                    if ( is_array( $token ) && T_WHITESPACE === $token[0] && substr_count( $token[1], "\n" ) > 1 ) {
+                    if (
+                        is_array( $token ) && (
+                            (
+                                T_WHITESPACE === $token[0] &&
+                                substr_count( $token[1], "\n" ) > 1
+                            ) || (
+                                T_COMMENT === $token[0]
+                            )
+                        )
+                    ) {
                         $content = 0;
                     }
                     if ( $content === $c_line ) {

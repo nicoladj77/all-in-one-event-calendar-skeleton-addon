@@ -92,8 +92,8 @@ define( 'AI1ECSA_FILE',        __FILE__ );
  * ```
  * This will enable the Core debug mode (change 'true' to 'false' to disable it)
  * and that means that if you connected your plugin to the core (see
- * [section on bootstrapping](#Bootstrap) for more on the topic) you will be able
- * to use [class loading](#Class_loading).
+ * [section on bootstrapping](#bootstrap) for more on the topic) you will be able
+ * to use [class loading](#class-loading).
  */
 
 /**
@@ -106,7 +106,7 @@ define( 'AI1ECSA_FILE',        __FILE__ );
  * For it to work you need to have a  writable directory `./lib/bootstrap/` (if
  * you are using Git or similar - it is easiet to create empty file in it called
  * EMPTY - then it will be always versioned).` Your classes are collected when
- * you refresh any page with [Core debug](#Core_debug) mode enabled.
+ * you refresh any page with [Core debug](#core-debug) mode enabled.
  *
  * Now that class loading is enabled any class in your plugin might be loaded
  * using it's location.
@@ -140,7 +140,7 @@ define( 'AI1ECSA_FILE',        __FILE__ );
  * is mandatory if you are using translations.
  * Last line is important:
  *     * it shows use of class loading provided by the Core (see
- *       [Class Loading](#Class_loading) section for more);
+ *       [Class Loading](#class-loading) section for more);
  *     * it calls `init` method on your controller, which will be explained in
  *       a page for [Ai1ecsa Controller](ai1ecsa.md).
  *
@@ -196,7 +196,7 @@ function ai1ec_skeleton_addon_activation() {
 	if ( ! $controller->check_compatibility( AI1EC_VERSION ) ) {
 		$message = __(
 			'Could not activate the Skeleton add-on: All-in-One Event Calendar version %s or higher is required.',
-			AI1ECSA_PLUGIN_NAME // please change prefix `AI1ECSA` to your [plugins prefix](#Plugin_specific_prefix)
+			AI1ECSA_PLUGIN_NAME // please change prefix `AI1ECSA` to your [plugins prefix](#plugin-specific-prefix)
 		);
 		$version = $controller->minimum_core_required();
 		$message = sprintf( $message, $version );
