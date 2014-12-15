@@ -121,7 +121,7 @@ define( 'AI1ECSA_FILE',        __FILE__ );
  * in the code block above you would use `'controller.skeleton.view'`.
  *
  * -----------------------------------------------------------------------------
- * Please be r-e-s-p-e-c-t-f-u-l
+ * Please be *respectful*
  * -----------------------------------------------------------------------------
  * Just like [function names in WordPress](http://codex.wordpress.org/Writing_a_Plugin)
  * you should make sure your file names are unique amongst other Core addons.
