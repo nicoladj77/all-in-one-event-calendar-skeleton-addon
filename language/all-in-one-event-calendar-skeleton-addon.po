@@ -1,0 +1,94 @@
+# Copyright (C) 2014 All-in-One Event Calendar Skeleton Addon by Time.ly
+# This file is distributed under the same license as the All-in-One Event Calendar Skeleton Addon by Time.ly package.
+msgid ""
+msgstr ""
+"Project-Id-Version: All-in-One Event Calendar Skeleton Addon by Time.ly "
+"0.0.9.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/all-in-one-event-calendar-"
+"skeleton-addon\n"
+"POT-Creation-Date: 2014-12-16 18:22:39+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-12-16 19:22+0100\n"
+"Last-Translator: Timely <support@time.ly>\n"
+"Language-Team:\n"
+
+#: all-in-one-event-calendar-skeleton-addon.php:184
+msgid "All In One Event Calendar must be installed to activate extensions"
+msgstr "All In One Event Calendar must be installed to activate extensions"
+
+#: all-in-one-event-calendar-skeleton-addon.php:197
+msgid ""
+"Could not activate the Skeleton add-on: All-in-One Event Calendar version %s "
+"or higher is required."
+msgstr ""
+"Could not activate the Skeleton add-on: All-in-One Event Calendar version %s "
+"or higher is required."
+
+#: app/controller/ai1ecsa.php:61
+msgid "Twitter"
+msgstr "Twitter"
+
+#: app/controller/ai1ecsa.php:124
+msgid "Post event to Twitter"
+msgstr "Post event to Twitter"
+
+#: app/controller/ai1ecsa.php:381
+msgid "Application Consumer Key:"
+msgstr "Application Consumer Key:"
+
+#: app/controller/ai1ecsa.php:392
+msgid "Application Consumer Secret:"
+msgstr "Application Consumer Secret:"
+
+#: app/controller/ai1ecsa.php:394
+msgid ""
+"Use \"<em>%s</em>\" URL for <strong>Callback URL</strong> when configuring "
+"your <a href=\"https://dev.twitter.com/apps/new\">Twitter application</a>. "
+"After creating the application, change the permissions required to "
+"<strong>Read and Write</strong> on the <strong>Permissions</strong> tab in "
+"Twitter."
+msgstr ""
+"Use \"<em>%s</em>\" URL for <strong>Callback URL</strong> when configuring "
+"your <a href=\"https://dev.twitter.com/apps/new\">Twitter application</a>. "
+"After creating the application, change the permissions required to "
+"<strong>Read and Write</strong> on the <strong>Permissions</strong> tab in "
+"Twitter."
+
+#: app/controller/ai1ecsa.php:410
+msgid "Time to notification before event start:"
+msgstr "Time to notification before event start:"
+
+#: app/controller/ai1ecsa.php:412
+msgid ""
+"Announcements will be posted to Twitter this long before start of event. "
+"Enter time in seconds (default behavior), or use suffixes, for example: "
+"<strong>3h</strong> = <em>3 hours</em>; <strong>1d</strong> = <em>1 day</em>."
+msgstr ""
+"Announcements will be posted to Twitter this long before start of event. "
+"Enter time in seconds (default behavior), or use suffixes, for example: "
+"<strong>3h</strong> = <em>3 hours</em>; <strong>1d</strong> = <em>1 day</em>."
+
+#. Plugin Name of the plugin/theme
+msgid "All-in-One Event Calendar Skeleton Addon by Time.ly"
+msgstr "All-in-One Event Calendar Skeleton Addon by Time.ly"
+
+#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.1)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.1)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://time.ly/"
+msgstr "http://time.ly/"
+
+#. Description of the plugin/theme
+msgid ""
+"Demo addon displaying how to integrate with All-in-One Event Calendar by "
+"Time.ly"
+msgstr ""
+"Demo addon displaying how to integrate with All-in-One Event Calendar by "
+"Time.ly"
+
+#. Author of the plugin/theme
+msgid "Time.ly Network Inc."
+msgstr "Time.ly Network Inc."
