@@ -5,7 +5,7 @@
  * Description: Demo addon displaying how to integrate with All-in-One Event Calendar by Time.ly
  * Author: Time.ly Network Inc.
  * Author URI: http://time.ly/
- * Version: 0.0.9.1
+ * Version: 0.0.9.2
  * Text Domain: all-in-one-event-calendar-skeleton-addon
  * Domain Path: /language
  */
@@ -66,7 +66,7 @@ define( 'AI1ECSA_PATH',        dirname( __FILE__ ) );
  * While it is not used "automatically" it allows to make use of some automatics
  * like tracking if addon was updated and performing corresponding actions.
  */
-define( 'AI1ECSA_VERSION',     '0.0.9.1' );
+define( 'AI1ECSA_VERSION',     '0.0.9.2' );
 /**
  * =============================================================================
  *                           URL AND FILE PATHS

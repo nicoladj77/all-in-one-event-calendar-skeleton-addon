@@ -2,6 +2,10 @@
 
 namespace Timely\Ai1ec\Skeleton\Documentation;
 
+if ( ! 'cli' !== php_sapi_name() ) {
+    return;
+}
+
 $base_dir     = dirname( __DIR__ );
 
 $documentable = new \RegexIterator(
@@ -71,7 +75,7 @@ class Generator {
                         $code .= ( isset( $token[1] ) ) ? $token[1] : $token;
                     }
                 } else {
-                    if ( $code ) {
+                    if ( strlen( $code ) > 5 ) {
                         $digest .= sprintf(
                             "```php\n%s\n```\n",
                             trim( $code )

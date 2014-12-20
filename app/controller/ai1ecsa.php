@@ -3,468 +3,239 @@
 /**
  * Skeleton add-on: example front controller.
  *
- * @author     Time.ly Network Inc.
- * @since      1.0
+ * This is a base class, which extends upon features provided in the Core.
+ * It might be possible to avoid using one, but it's just easier to 
  *
- * @package    AI1ECSA
- * @subpackage AI1ECSA.Controller
+ * The base class here is `Ai1ec_Base_License_Controller` but you may
+ * choose to use `Ai1ec_Base_Extension_Controller` which is a bit simplier
+ * and mostly useful if used outside of Timely bundles.
  */
-class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_Extension_Controller {
+class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
 
 	/**
-	 * @see Ai1ec_Base_Extension_Controller::minimum_core_required()
+	 * Indicate the minimum version of Core that you are willing to use.
+     * There are new features, especially under the hood, added with each
+     * release of the Core, so it is better to check what was the first version
+     * to introduce the feature you are using and indicate that as your minimum
+     * required version. Otherwise users will experience errors and see your
+     * add-on being disabled.
 	 */
 	public function minimum_core_required() {
-		return '2.1.8';
+		return '2.1.9';
 	}
 
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Base_Extension_Controller::get_name()
-	*/
+	/**
+	 * Provide a user-readable name of your plugin here. It will be used
+     * throughout a UI to identify parts specific to your add-on.
+     */
 	public function get_name() {
 		return 'Skeleton';
 	}
 
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Base_Extension_Controller::get_machine_name()
-	*/
+	/**
+	 * Provide a machine-readable name of your plugin. It should contain letters
+     * and may contain numbers as well as underscore (`_`) characters. It is
+     * used in JavaScript and PHP to reference code blocks specific to your
+     * add-on.
+     */
 	public function get_machine_name() {
-		return 'twitter_integration';
+		return 'skeleton';
 	}
 
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Base_Extension_Controller::get_version()
-	*/
+	/**
+	 * This method is explicitly provided by Licence extension class. It is
+     * used in combination with Timely licensing server. For more details on
+     * selling add-ons though Timely Marketplace please get in touch with us.
+     */
+	public function get_license_label() {
+		return 'Skeleton License Key';
+	}
+
+	/**
+	 * Return your current version. It will be used to inform the user if some
+     * generic information needs to be communicated. Usually it's enough to use
+     * the constant which you defined in the base plugin file.
+     */
 	public function get_version() {
 		return AI1ECTI_VERSION;
 	}
 
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Licence_Controller::get_file()
-	*/
+	/**
+	 * Please use the constant from base plugin file here. It is used internally
+     * to diagnose (detect) add-on related actions.
+     */
 	public function get_file() {
 		return AI1ECTI_FILE;
 	}
 
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Base_License_Controller::get_license_label()
-	*/
-	public function get_license_label() {
-		return 'Twitter License Key';
-	}
-
-	/* (non-PHPdoc)
-	 * @see Ai1ec_Base_License_Controller::add_tabs()
-	*/
+	/**
+     * =========================================================================
+     *                          DEFINING SETTINGS
+     * =========================================================================
+	 * If you are going to provide some settings for the user to choose from you
+     * shall keep them in a dedicated tab in the settings. That way it will be
+     * easier to explain choices to the user and keep the UI tidy.
+     * Please replace tab identifier (`'skeleton'`) and title (`'Skeleton'`) in
+     * the code bellow to the values of your choice.
+     */
 	public function add_tabs( array $tabs ) {
 		$tabs = parent::add_tabs( $tabs );
-		$tabs['extensions']['items']['twitter'] = __(
-			'Twitter',
-			AI1ECTI_PLUGIN_NAME
+		$tabs['extensions']['items']['skeleton'] = __(
+			'Skeleton',
+			AI1ECSA_PLUGIN_NAME
 		);
 		return $tabs;
 	}
 
 	/**
-	 * Initializes the extension.
-	 *
-	 * @param Ai1ec_Registry_Object $registry
-	 */
-	public function init( Ai1ec_Registry_Object $registry ) {
-		parent::init( $registry );
-		$this->_request  = $registry->get( 'http.request.parser' );
-		$this->_settings = $registry->get( 'model.settings' );
-		$this->_register_commands();
-		$this->_register_cron();
-	}
-
-	/**
-	 * Generate HTML box to be rendered on event editing page
-	 *
-	 * @return void Method does not return
-	 */
-	public function post_meta_box() {
-		global $post;
-		if ( ! $this->_registry->get( 'acl.aco' )->are_we_editing_our_post() ) {
-			return NULL;
-		}
-
-		// Get Event by ID
-		try {
-			$event = $this->_registry->get( 'model.event', $post->ID );
-		} catch (Ai1ec_Event_Not_Found_Exception $e) {
-			$event = null;
-		}
-
-		$status        = false;
-		$checked       = null;
-		$twitter_setup = $this->_registry->get( 'oauth.oauth-provider-twitter' )
-			->is_configured();
-		if ( ! $twitter_setup ) {
-			return;
-		}
-
-		if (
-			$twitter_setup &&
-			! $this->_get_token()
-		) {
-			$this->_registry->get( 'notification.twitter' )
-				->send_token_notification();
-			return;
-		}
-
-		if ( $event !== null ) {
-			$status    = $this->_registry->get( 'model.twitter.property' )
-				->get_post_flag( $event );
-		}
-		if ( true === $status ) {
-			$checked   = 'checked="checked"';
-		}
-		$args = array(
-			'title'    => __( 'Post event to Twitter', AI1ECTI_PLUGIN_NAME ),
-			'checked'  => $checked,
-		);
-		$this->_registry->get( 'theme.loader' )->get_file(
-			'ai1ecti-post-meta-box.twig',
-			$args,
-			true
-		)->render();
-	}
-
-	/**
-	 * Cron callback processing (retrieving and sending) pending messages
-	 *
-	 * @return int Number of messages posted to Twitter
-	 */
-	public function send_twitter_messages() {
-		// instance of oauth twitter adapter
-		$provider     = $this->_registry->get( 'oauth.oauth-provider-twitter' );
-		$token        = $this->_get_token();
-		$notification = $this->_registry->get( 'notification.twitter' );
-		$pending      = $this->_get_pending_twitter_events();
-		$successful   = 0;
-
-		if ( 0 === count( $pending ) ) {
-			return false;
-		}
-
-		if ( ! $provider->is_configured() ) {
-			return 0;
-		}
-		if ( ! $token ) {
-			$notification->send_token_notification();
-			return 0;
-		}
-
-
-		foreach ( $pending as $event ) {
-			try {
-				if (
-					$this->_send_twitter_message( $event, $provider, $token )
-				) {
-					++$successful;
-				}
-			} catch ( Exception $e ) {
-				$notification->add_notification( $e->getMessage() );
-			}
-		}
-		$notification->store_all();
-		return $successful;
-	}
-
-	public function on_deactivation() {
-		$this->_registry->get( 'scheduling.utility' )
-			->delete( self::CRON_HOOK_NAME );
-		parent::on_deactivation();
-	}
-
-	/**
-	 * Action performed during activation.
-	 *
-	 * @param Ai1ec_Registry $ai1ec_registry Registry object.
-	 *
-	 * @return void Method does not return.
-	 */
-	public function on_activation( Ai1ec_Registry $ai1ec_registry ) {
-		$ai1ec_registry->get( 'scheduling.utility' )->schedule(
-			self::CRON_HOOK_NAME,
-			'hourly'
-		);
-	}
-
-	/**
-	 * Handles event save for Twitter purposes.
-	 *
-	 * @param Ai1ec_Event $event Event object.
-	 *
-	 * @return void Method does not return.
-	 */
-	public function handle_save_event( Ai1ec_Event $event ) {
-		$post_to_twitter = isset( $_POST[self::TWITTER_FIELD] );
-		$twitter_props   = $this->_registry->get( 'model.twitter.property' );
-
-		$twitter_props->set_post_flag( $event, $post_to_twitter );
-		$status = $twitter_props->get_status( $event );
-
-		if (
-			! $status ||
-			'pending' === $status
-		) {
-			if ( $post_to_twitter ) {
-				$twitter_props->set_status( $event, 'pending' );
-			} else {
-				$twitter_props->delete_pending( $event );
-			}
-		}
-	}
-
-	/**
-	 * Retrieves a list of events matching Twitter notification time interval
-	 *
-	 * @return array List of Ai1ec_Event objects
-	 */
-	protected function _get_pending_twitter_events() {
-		$parser   = $this->_registry->get( 'parser.frequency' );
-		$search   = $this->_registry->get( 'model.search' );
-
-		// Parse time interval
-		$parser->parse( $this->_settings->get( 'twitter_notice_interval' ) );
-
-		$interval = (int) $parser->to_seconds();
-		$start    = $this->_registry->get( 'date.time', time() + $interval - 600 );
-		$end      = $this->_registry->get( 'date.time', time() + $interval + 6600 );
-		$events   = $search->get_events_between( $start, $end );
-
-		return $events;
-	}
-
-	/**
-	 * Checks and sends message to Twitter.
-	 *
-	 * Upon successfully sending message - updates meta to reflect status change.
-	 *
-	 * @param Ai1ec_Event                    $event    Event object.
-	 * @param Ai1ecti_Oauth_Provider_Twitter $provider Twitter Oauth provider.
-	 * @param array                          $token    Auth token.
-	 *
-	 * @return bool Success.
-	 *
-	 * @throws Ai1ecti_Oauth_Exception In case of some error.
-	 */
-	protected function _send_twitter_message( $event, $provider, $token ) {
-		$twitter_prop = $this->_registry->get( 'model.twitter.property' );
-		$status       = $twitter_prop->get_status( $event );
-		$submit_flag  = $twitter_prop->get_post_flag( $event );
-
-		if ( is_array( $status ) ) {
-			$status = (string)current( $status );
-		}
-		if (
-			'pending' !== $status ||
-			! $submit_flag
-		) {
-			return false;
-		}
-		$tokens   = array(
-			'title'    => $event->get( 'post' )->post_title,
-			'date'     => $this->_registry->get( 'view.event.time' )->get_short_date(
-				$event->get( 'start' )
-			),
-			'venue'    => $event->get( 'venue' ),
-			'link'     => add_query_arg(
-				'instance_id',
-				$event->get( 'instance_id' ),
-				get_permalink( $event->get( 'post' ) )
-			),
-			'hashtags' => $this->_get_hashtags( $event ),
-		);
-		$message = $this->_registry->get( 'twitter.formatter', $tokens )->format();
-
-		$response = $provider->send_message(
-			$token,
-			$message,
-			array(
-				'longitude' => $event->get( 'longitude' ),
-				'latitude'  => $event->get( 'latitude' ),
-				'has_geo'   => $event->has_geoinformation(),
-			)
-		);
-
-		if ( $response->is_error() ) {
-			$this->_registry->get( 'notification.twitter' )
-				->add_submission_notification( $event, $response );
-			$state        = 'failed';
-			$message_text = $response->get_string_error();
-		} else {
-			$state        = 'sent';
-			$oembed       = $provider->get_oembed(
-				$token,
-				$response->get( 'id_str' )
-			);
-			$message_text = null;
-			if ( ! $oembed->is_error() ) {
-				$message_text = $oembed->get( 'html' );
-			}
-			$this->_registry->get( 'notification.twitter' )
-				->add_submission_message( $event, $oembed );
-		}
-		$twitter_prop->set_status(
-			$event,
-			array(
-				'success'           => ! $response->is_error(),
-				'status'            => $state,
-				'twitter_status_id' => $response->get( 'id_str' ),
-				'message'           => $message_text,
-			)
-		);
-		$twitter_prop->touch( $event );
-		return ( ! $response->is_error() );
-	}
-
-	/**
-	 * Extract hashtags based on event taxonomy.
-	 *
-	 * @param Ai1ec_Event $event Instance of event object.
-	 *
-	 * @return array List of unique hash-tags to use (with '#' symbol).
-	 */
-	protected function _get_hashtags( Ai1ec_Event $event ) {
-		$terms    = array_merge(
-			wp_get_post_terms(
-				$event->get( 'post_id' ),
-				'events_categories'
-			),
-			wp_get_post_terms(
-				$event->get( 'post_id' ),
-				'events_tags'
-			)
-		);
-		$hashtags = array();
-		foreach ( $terms as $term ) {
-			$hashtags[] = '#' . implode( '_', explode( ' ', $term->name ) );
-		}
-		return array_unique( $hashtags );
-	}
-
-	/**
-	 * Gets OAuth token.
-	 *
-	 * @return string OAuth token.
-	 *
-	 * @throws Ai1ecti_Oauth_Exception
-	 */
-	protected function _get_token() {
-		$option = $this->_registry->get( 'model.option' );
-		$token  = $option->get( 'ai1ec_oauth_tokens' );
-		if ( ! isset( $token ) ) {
-			return false;
-		}
-		return $token;
-	}
-
-	/**
-	 * Register custom settings used by the extension to ai1ec general settings
-	 * framework
-	 *
-	 * @return void
+	 * Register custom settings used by the add-on. This allows you to define
+     * the settings that you need and do not worry about implementing the UI
+     * to choose them. Code bellow displays two types of settings you are likely
+     * to use.
 	 */
 	protected function _get_settings() {
-		$twitter_authorize_url = site_url( '?ai1ec_oauth=twitter' );
-
 		return array(
-			'oauth_twitter_id' => array(
+            /**
+             * This is a name of the setting. Please note that it must start with
+             * a unique prefix - for example your plugin name. It must contain
+             * only letters, underscores (`_`) and numbers and start with a letter.
+             */
+			'skeleton_sold_out_message' => array(
+                /**
+                 * Type indicates how the setting will be treated after user
+                 * selects a value. Common types are `'string'` for any text,
+                 * `'html'` for rich text input, `'array'` for a list of
+                 * options and `'bool`' for any yes/no choice (checkbox).
+                 */
 				'type' => 'string',
+                /**
+                 * Renderer element describes how element will be present
+                 * to user for selecting a value.
+                 */
 				'renderer' => array(
+                    /**
+                     * Class corresponds to some of the types that Core had
+                     * implemented. Currently you may choose from `'input'`
+                     * (a simple HTML input), a `'checkbox'` for yes/no values,
+                     * a `'select`' for one or many selections from a list
+                     * and a `'textarea'` for a multiline text (or HTML) input.
+                     */
 					'class' => 'input',
+                    /**
+                     * Tab indicates a primary location on settings page. You
+                     * are likely to always choose `'extensions'` here.
+                     */
 					'tab'   => 'extensions',
-					'item'  => 'twitter',
-					'label' => __( 'Application Consumer Key:', AI1ECTI_PLUGIN_NAME ),
+                    /**
+                     * Tab indicates a particular location within a tab on
+                     * settings page. Again - it's likely you will always use
+                     * your plugin name here, like `'skeleton'`.
+                     */
+					'item'  => 'skeleton',
+                    /**
+                     * Label is a text visible to user next to a form element
+                     * in a few words explaining the meaning of a choice.
+                     */
+					'label' => __( 'Message to add to sold out events:', AI1ECSA_PLUGIN_NAME ),
+                    /**
+                     * Help is an additional text which user will see beneath
+                     * your option. It is optional, but if provided it is intended
+                     * to explain the purpose of the option.
+                     */
+					'help'  => __( 'Remember to make changes to an event once it is sold out.', AI1ECSA_PLUGIN_NAME ),
+                    /**
+                     * This is `'input'` class specific option. You may choose from
+                     * `'normal'` - just text, `'date'` - date selections, `'email'`
+                     * for email input and `'append'` if you wish to display this as
+                     * a HTML snippet explaining options instead of a real option.
+                     */
 					'type'  => 'normal',
 				),
-				'value'  => '',
+                /**
+                 * This is a default value that user will see before he makes his
+                 * choice.
+                 */
+				'value'  => 'Sold out!',
 			),
-			'oauth_twitter_pass' => array(
-				'type' => 'string',
+			'skeleton_message_disabled' => array(
+				'type'     => 'bool',
 				'renderer' => array(
-					'class' => 'oauth_secret',
-					'tab'   => 'extensions',
-					'item'  => 'twitter',
-					'label' => __( 'Application Consumer Secret:', AI1ECTI_PLUGIN_NAME ),
-					'type'  => 'normal',
-					'help'  => sprintf( __(
-							'Use "<em>%s</em>" URL for <strong>Callback URL</strong> when configuring your <a href="https://dev.twitter.com/apps/new">Twitter application</a>. After creating the application, change the permissions required to <strong>Read and Write</strong> on the <strong>Permissions</strong> tab in Twitter.',
-							AI1ECTI_PLUGIN_NAME
-						),
-						$twitter_authorize_url
+					'class'  => 'checkbox',
+					'tab'    => 'extensions',
+					'item'   => 'skeleton',
+					'label'  => __(
+						'Disable messages everywhere?',
+                        AI1ECSA_PLUGIN_NAME
 					),
-					'oauth_url' => $twitter_authorize_url,
-				),
-				'value'  => '',
-			),
-			'twitter_notice_interval' => array(
-				'type' => 'string',
-				'renderer' => array(
-					'class' => 'input-small',
-					'tab'   => 'extensions',
-					'item'  => 'twitter',
-					'label' => __( 'Time to notification before event start:', AI1ECTI_PLUGIN_NAME ),
-					'type'  => 'normal',
 					'help'  => __(
-						'Announcements will be posted to Twitter this long before start of event. Enter time in seconds (default behavior), or use suffixes, for example: <strong>3h</strong> = <em>3 hours</em>; <strong>1d</strong> = <em>1 day</em>.',
-						AI1ECTI_PLUGIN_NAME
+						'Please use this checkbox if you want to disable all "sold out" messages',
+                        AI1ECSA_PLUGIN_NAME
 					),
 				),
-				'value'  => '',
+				'value'  => false,
 			),
 		);
 	}
 
 	/**
-	 * Register actions handlers
-	 *
-	 * @return void
+	 * Action performed during activation. Please keep all actions that you want
+     * to run only once, during your add-on activation, in this method. Then the
+     * Core will make sure it is executed correctly.
+	 */
+	public function on_activation( Ai1ec_Registry $ai1ec_registry ) {
+	}
+
+	/**
+	 * Register actions handlers. This is a method provided by the Core which
+     * allows to hook to actions or filters in a sensible manner. Here sensible
+     * means that Core will take care to optimise memory usage for you as much
+     * as possible.
 	 */
 	protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {
-		$dispatcher->register_action(
-			'post_submitbox_misc_actions',
-			array( 'controller.ai1ecti', 'post_meta_box' )
-		);
-		// Add the "Post to Twitter" functionality.
+        /**
+         * The $dispatcher (class name `Ai1ec_Event_Dispatcher`) is provided by
+         * the Core to make it easier to bind to actions.
+         * It has methods `register_action` which corresponds to WordPress native
+         * [`add_action`](http://codex.wordpress.org/Function_Reference/add_action)
+         * and `register_filter` (corresponds to 
+         * [`add_filter`](http://codex.wordpress.org/Function_Reference/add_filter)).
+         * --
+         * The difference lies in the second argument. As you see bellow - it's an
+         * array with two elements. First being path name (remember *Class Loading*
+         * section from the introduction) to your class and the second - method name
+         * in that class. So, the example bellow
+         * `array( 'controller.skeleton', 'post_meta_box' )` means that when this
+         * action (`post_submitbox_misc_actions`) will work the Core will find your
+         * controller (here it will be a file in `./app/controller/skeleton.php`),
+         * initiate it and run the method (again, in this case it will be method
+         * `Ai1ecsa_Skeleton_Controller::post_meta_box`).
+         * More information about dedicated controllers is found in [Skeleton
+         * controller description](skeleton.md).
+         */
+		$dispatcher->register_action( 'post_submitbox_misc_actions', array( 'controller.skeleton', 'post_meta_box' ) );
 		$dispatcher->register_action(
 			'ai1ec_save_post',
-			array( 'controller.ai1ecti', 'handle_save_event' )
+			array( 'controller.skeleton', 'handle_save_event' )
 		);
-		$dispatcher->register_action(
-			self::CRON_HOOK_NAME,
-			array( 'controller.ai1ecti', 'send_twitter_messages' )
-		);
-	}
-
-	/**
-	 * Register commands handlers
-	 *
-	 * @return void
-	 */
-	protected function _register_commands() {
-		$this->_registry->get( 'command.resolver', $this->_request )
-			->add_command(
-				$this->_registry->get(
-					'command.twitter-oauth',
-					$this->_request
-				)
-			);
-	}
-
-	/**
-	 * Register cron handlers.
-	 *
-	 * @return void
-	 */
-	protected function _register_cron() {
-		$this->_registry->get( 'scheduling.utility' )->reschedule(
-			self::CRON_HOOK_NAME,
-			'hourly'
-		);
+        /**
+         * Here is shown the interaction with settings model. Remember the
+         * [Defining settings][#defining-settings] section above where the
+         * registration takes place. Here we call the settings model. Then
+         * the model is asked to retrieve value for particular setting. If
+         * the value is not defined - the default will be `false`.
+         */
+        $disabled = $this->_registry->get( 'model.settings' )
+                                    ->get( 'skeleton_message_disabled', false );
+        if ( ! $disabled ) {
+            /**
+             * See how message is added to event description in
+             * [view file](message.md).
+             * Please note the line above - we are checking if user haven't
+             * disabled the messages entirely before adding filter in order
+             * to increaase performance.
+             */
+            $dispatcher->register_filter( 'the_title', array( 'view.skeleton.message', 'filter_title' ), 10, 2 );
+        }
 	}
 
 }

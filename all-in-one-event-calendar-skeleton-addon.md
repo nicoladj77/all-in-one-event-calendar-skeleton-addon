@@ -36,7 +36,7 @@ This constant should be in sync with version number defined in plugin title.
 While it is not used "automatically" it allows to make use of some automatics
 like tracking if addon was updated and performing corresponding actions.
 ```php
-define( 'AI1ECSA_VERSION',     '0.0.9' );
+define( 'AI1ECSA_VERSION',     '0.0.9.2' );
 ```
 
 Core Debug

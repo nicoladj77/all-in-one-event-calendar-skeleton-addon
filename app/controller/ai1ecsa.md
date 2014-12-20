@@ -1,106 +1,110 @@
 Skeleton add-on: example front controller.
 
-@author     Time.ly Network Inc.
-@since      1.0
+This is a base class, which extends upon features provided in the Core.
+It might be possible to avoid using one, but it's just easier to
 
-@package    AI1ECSA
-@subpackage AI1ECSA.Controller
-@see Ai1ec_Base_Extension_Controller::minimum_core_required()
+The base class here is `Ai1ec_Base_License_Controller` but you may
+choose to use `Ai1ec_Base_Extension_Controller` which is a bit simplier
+and mostly useful if used outside of Timely bundles.
+Indicate the minimum version of Core that you are willing to use.
+* There are new features, especially under the hood, added with each
+* release of the Core, so it is better to check what was the first version
+* to introduce the feature you are using and indicate that as your minimum
+* required version. Otherwise users will experience errors and see your
+* add-on being disabled.
 ```php
-class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_Extension_Controller {public function minimum_core_required() {
+class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {public function minimum_core_required() {
 ```
-Initializes the extension.
-
-@param Ai1ec_Registry_Object $registry
+Provide a user-readable name of your plugin here. It will be used
+* throughout a UI to identify parts specific to your add-on.
 ```php
-public function init( Ai1ec_Registry_Object $registry ) {
+public function get_name() {
 ```
-Generate HTML box to be rendered on event editing page
-
-@return void Method does not return
+Provide a machine-readable name of your plugin. It should contain letters
+* and may contain numbers as well as underscore (`_`) characters. It is
+* used in JavaScript and PHP to reference code blocks specific to your
+* add-on.
 ```php
-public function post_meta_box() {
+public function get_machine_name() {
 ```
-Cron callback processing (retrieving and sending) pending messages
-
-@return int Number of messages posted to Twitter
+This method is explicitly provided by Licence extension class. It is
+* used in combination with Timely licensing server. For more details on
+* selling add-ons though Timely Marketplace please get in touch with us.
 ```php
-public function send_twitter_messages() {
+public function get_license_label() {
 ```
-Action performed during activation.
-
-@param Ai1ec_Registry $ai1ec_registry Registry object.
-
-@return void Method does not return.
+Return your current version. It will be used to inform the user if some
+* generic information needs to be communicated. Usually it's enough to use
+* the constant which you defined in the base plugin file.
 ```php
-public function on_activation( Ai1ec_Registry $ai1ec_registry ) {
+public function get_version() {
 ```
-Handles event save for Twitter purposes.
-
-@param Ai1ec_Event $event Event object.
-
-@return void Method does not return.
+Please use the constant from base plugin file here. It is used internally
+* to diagnose (detect) add-on related actions.
 ```php
-public function handle_save_event( Ai1ec_Event $event ) {
+public function get_file() {
 ```
-Retrieves a list of events matching Twitter notification time interval
-
-@return array List of Ai1ec_Event objects
+If you are going to provide some settings for the user to choose from you
+* shall keep them in a dedicated tab in the settings. That way it will be
+* easier to explain choices to the user and keep the UI tidy.
+* Please replace tab identifier (`'skeleton'`) and title (`'Skeleton'`) in
+* the code bellow to the values of your choice.
 ```php
-protected function _get_pending_twitter_events() {
+public function add_tabs( array $tabs ) {
 ```
-Checks and sends message to Twitter.
-
-Upon successfully sending message - updates meta to reflect status change.
-
-@param Ai1ec_Event                    $event    Event object.
-@param Ai1ecti_Oauth_Provider_Twitter $provider Twitter Oauth provider.
-@param array                          $token    Auth token.
-
-@return bool Success.
-
-@throws Ai1ecti_Oauth_Exception In case of some error.
-```php
-protected function _send_twitter_message( $event, $provider, $token ) {
-```
-Extract hashtags based on event taxonomy.
-
-@param Ai1ec_Event $event Instance of event object.
-
-@return array List of unique hash-tags to use (with '#' symbol).
-```php
-protected function _get_hashtags( Ai1ec_Event $event ) {
-```
-Gets OAuth token.
-
-@return string OAuth token.
-
-@throws Ai1ecti_Oauth_Exception
-```php
-protected function _get_token() {
-```
-Register custom settings used by the extension to ai1ec general settings
-framework
-
-@return void
+Register custom settings used by the add-on. This allows you to define
+* the settings that you need and do not worry about implementing the UI
+* to choose them. Code bellow displays two types of settings you are likely
+* to use.
 ```php
 protected function _get_settings() {
 ```
-Register actions handlers
-
-@return void
+* This is a name of the setting. Please note that it must start with
+* a unique prefix - for example your plugin name. It must contain
+* only letters, underscores (`_`) and numbers and start with a letter.
+```php
+'skeleton_sold_out_message' => array(
+```
+* Renderer element describes how element will be present
+* to user for selecting a value.
+```php
+'renderer' => array(
+```
+* Tab indicates a primary location on settings page. You
+* are likely to always choose `'extensions'` here.
+```php
+'tab'   => 'extensions',
+```
+* Label is a text visible to user next to a form element
+* in a few words explaining the meaning of a choice.
+```php
+'label' => __( 'Message to add to sold out events:', AI1ECSA_PLUGIN_NAME ),
+```
+* This is `'input'` class specific option. You may choose from
+* `'normal'` - just text, `'date'` - date selections, `'email'`
+* for email input and `'append'` if you wish to display this as
+* a HTML snippet explaining options instead of a real option.
+```php
+'type'  => 'normal',
+				),
+```
+* This is a default value that user will see before he makes his
+* choice.
+```php
+'value'  => 'Sold out!',
+			),
+```
+Action performed during activation. Please keep all actions that you want
+* to run only once, during your add-on activation, in this method. Then the
+* Core will make sure it is executed correctly.
+```php
+public function on_activation( Ai1ec_Registry $ai1ec_registry ) {
+	}
+```
+Register actions handlers. This is a method provided by the Core which
+* allows to hook to actions or filters in a sensible manner. Here sensible
+* means that Core will take care to optimise memory usage for you as much
+* as possible.
 ```php
 protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {
-```
-Register commands handlers
-
-@return void
-```php
-protected function _register_commands() {
-```
-Register cron handlers.
-
-@return void
-```php
-protected function _register_cron() {
 ```
