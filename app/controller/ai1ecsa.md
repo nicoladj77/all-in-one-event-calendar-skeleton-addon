@@ -44,6 +44,9 @@ Please use the constant from base plugin file here. It is used internally
 ```php
 public function get_file() {
 ```
+* =========================================================================
+*                          DEFINING SETTINGS
+* =========================================================================
 If you are going to provide some settings for the user to choose from you
 * shall keep them in a dedicated tab in the settings. That way it will be
 * easier to explain choices to the user and keep the UI tidy.
@@ -107,4 +110,21 @@ Register actions handlers. This is a method provided by the Core which
 * as possible.
 ```php
 protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {
+```
+* Here is shown the interaction with settings model. Remember the
+* [Defining settings][#defining-settings] section above where the
+* registration takes place. Here we call the settings model. Then
+* the model is asked to retrieve value for particular setting. If
+* the value is not defined - the default will be `false`.
+```php
+$disabled = $this->_registry->get( 'model.settings' )
+```
+* See how message is added to event description in
+* [view file](message.md).
+* Please note the line above - we are checking if user haven't
+* disabled the messages entirely before adding filter in order
+* to increaase performance.
+```php
+$dispatcher->register_filter( 'the_title', array( 'view.skeleton.message', 'filter_title' ), 10, 2 );
+        }
 ```

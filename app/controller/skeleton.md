@@ -52,8 +52,8 @@ try {
 * passed to template. It must be an array, where keys will become variable
 * names in the template. In this case `$args` contains key `title` with
 * value `'Event is Sold Out'` and `checked` with either `true` or `false`
-* as its value. In template `{{ title }}` and `{{ checked }}` variables
-* will be made available.
+* as its value. In template `{{ title }}`, `{{ id }}` and `{{ checked }}`
+* variables will be made available.
 ```php
 }$this->_registry->get( 'theme.loader' )->get_file(
 ```

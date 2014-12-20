@@ -2,7 +2,7 @@
 
 namespace Timely\Ai1ec\Skeleton\Documentation;
 
-if ( ! 'cli' !== php_sapi_name() ) {
+if ( 'cli' !== php_sapi_name() ) {
     return;
 }
 
