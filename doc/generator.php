@@ -132,7 +132,7 @@ class Generator {
     }
 
     public function clean_line( $line ) {
-        return trim( substr( $line, 3 ) );
+        return trim( substr( trim( $line ), 2 ) );
     }
 
 }

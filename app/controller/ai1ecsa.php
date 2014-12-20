@@ -229,7 +229,7 @@ class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
         if ( ! $disabled ) {
             /**
              * See how message is added to event description in
-             * [view file](message.md).
+             * [view file](/app/view/skeleton/message.md).
              * Please note the line above - we are checking if user haven't
              * disabled the messages entirely before adding filter in order
              * to increaase performance.

@@ -24,7 +24,7 @@ class Ai1ecsa_Skeleton_Controller extends Ai1ec_Base {
          * You may prefer to use model (read more about MVC pattern
          * [here](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
          * or [here](http://martinfowler.com/tags/model-view-controller.html)).
-         * This model is [described in details here](skeleton-soldout.md).
+         * This model is [described in details here](../model/skeleton-soldout.md).
          */
 		$this->_registry->get( 'model.skeleton-soldout' )
                         ->set_post_flag( $event, $soldout );
