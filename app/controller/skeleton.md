@@ -34,20 +34,20 @@ This means that event is not yet saved.
 This is a way to use Core templating system. It provides a few features,
 security being amongst them, which make it more convenient than default
 WordPress one.
---
+
 You are ought to place templates in one of these folders in plugin
 main directory:
 * `public/admin/twig/` - for templates used in admin side; you need
 to set third argument to `true` in that case, in the call bellow;
 * `public/themes-ai1ec/vortex/twig/` - for front-end views.
---
+
 The `get_file` accepts file path starting at one of these directories.
 In this case it is template `ai1ecsa-post-meta-box.twig` for admin side
 view so the file will be `public/admin/twig/ai1ecsa-post-meta-box.twig`.
 You may also use directories, i.e. create file
 `public/admin/twig/skeleton/soldout/meta-box.twig` and then require it
 by using `skeleton/soldout/meta-box.twig` value in the method bellow.
---
+
 Second argument to the function `get_file` is a list of values to be
 passed to template. It must be an array, where keys will become variable
 names in the template. In this case `$args` contains key `title` with
