@@ -6,14 +6,18 @@
  */
 class Ai1ecsa_SkeletonSoldout extends Ai1ec_Base {
 
-	/**
-	 * Meta key indicating user choice.
-	 */
+
+	// Meta key indicating user choice.
 	const SKELETON_POST_FLAG = '_ai1ecsa_is_sold_out';
 
+
 	/**
-	 * Gets status whereas event is sold out.
+     * =========================================================================
+	 *                         CHECK EVENT STATUS
+     * =========================================================================
 	 *
+     * Gets status whereas event is sold out.
+     *
 	 * @return bool True if event is "Sold Out", false otherwise.
 	 */
 	public function get_post_flag( Ai1ec_Event $event ) {
@@ -35,6 +39,10 @@ class Ai1ecsa_SkeletonSoldout extends Ai1ec_Base {
 	}
 
 	/**
+     * =========================================================================
+	 *                         CHANGE EVENT STATUS
+     * =========================================================================
+     *
 	 * Sets Sold Out status for an event.
 	 *
 	 * @return bool Success.
