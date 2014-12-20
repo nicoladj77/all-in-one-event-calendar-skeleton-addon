@@ -142,7 +142,7 @@ define( 'AI1ECSA_FILE',        __FILE__ );
  *     * it shows use of class loading provided by the Core (see
  *       [Class Loading](#class-loading) section for more);
  *     * it calls `init` method on your controller, which will be explained in
- *       a page for [Ai1ecsa Controller](ai1ecsa.md).
+ *       a page for [Ai1ecsa Controller](app/controller/ai1ecsa.md).
  *
  * @wp_hook ai1ec_loaded Action 'ai1ec_loaded' is triggered when WordPress native
  *                       action 'plugins_loaded' executes.
@@ -190,9 +190,9 @@ function ai1ec_skeleton_addon_activation() {
 	}
 	require_once AI1ECSA_PATH . DIRECTORY_SEPARATOR . 'app' .
 		DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR .
-		'ai1ecsa.php'; // please change 'ai1ecsa.php' to the file name of your [main controller](ai1ecsa.md)
+		'ai1ecsa.php'; // please change 'ai1ecsa.php' to the file name of your [main controller](app/controller/ai1ecsa.md)
 	// no need to register this, we are redirected afterwards.
-	$controller = new Ai1ec_Controller_Ai1ecsa(); // please change 'Ai1ec_Controller_Ai1ecsa' to the name of your [main controller](ai1ecsa.md)
+	$controller = new Ai1ec_Controller_Ai1ecsa(); // please change 'Ai1ec_Controller_Ai1ecsa' to the name of your [main controller](app/controller/ai1ecsa.md)
 	if ( ! $controller->check_compatibility( AI1EC_VERSION ) ) {
 		$message = __(
 			'Could not activate the Skeleton add-on: All-in-One Event Calendar version %s or higher is required.',
