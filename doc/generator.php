@@ -84,7 +84,7 @@ class Generator {
                     }
                     $content = 0;
                 }
-            } elseif ( is_array( $token ) && T_DOC_COMMENT === $token[0] && false === strpos( $token[1], 'Plugin URI' ) ) {
+            } elseif ( $this->_isDoc( $token ) ) {
                 $lines = preg_split( '|[\r\n]+|', $token[1] );
                 $chunk = $this->to_digest( $lines );
                 if ( $chunk ) {
@@ -95,6 +95,19 @@ class Generator {
         }
         return trim( $digest );
 	}
+
+    protected function _isDoc( $token ) {
+        if ( ! is_array( $token ) ) {
+            return false;
+        }
+        if ( T_DOC_COMMENT !== $token[0] ) {
+            return false;
+        }
+        if ( false !== strpos( $token[1], 'Plugin URI' ) ) {
+            return false;
+        }
+        return true;
+    }
 
     public function to_digest( array $lines ) {
         // @TODO: use ai1ec.registry to link to classes mentioned in '@param' and '@return'

@@ -108,11 +108,31 @@ Register actions handlers. This is a method provided by the Core which
 allows to hook to actions or filters in a sensible manner. Here sensible
 means that Core will take care to optimise memory usage for you as much
 as possible.
+
+Using Dispatcher
+================
+The $dispatcher (class name `Ai1ec_Event_Dispatcher`) is provided by
+the Core to make it easier to bind to actions.
+It has methods `register_action` which corresponds to WordPress native
+[`add_action`](http://codex.wordpress.org/Function_Reference/add_action)
+and `register_filter` (corresponds to
+[`add_filter`](http://codex.wordpress.org/Function_Reference/add_filter)).
+The difference lies in the second argument. As you see bellow - it's an
+array with two elements. First being path name (remember *Class Loading*
+section from the introduction) to your class and the second - method name
+in that class. So, the example bellow
+`array( 'controller.skeleton', 'post_meta_box' )` means that when this
+action (`post_submitbox_misc_actions`) will work the Core will find your
+controller (here it will be a file in `./app/controller/skeleton.php`),
+initiate it and run the method (again, in this case it will be method
+`Ai1ecsa_Skeleton_Controller::post_meta_box`).
+More information about dedicated controllers is found in [Skeleton
+controller description](skeleton.md).
 ```php
-protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {
+protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {$dispatcher->register_action( 'post_submitbox_misc_actions', array( 'controller.skeleton', 'post_meta_box' ) );
 ```
 Here is shown the interaction with settings model. Remember the
-[Defining settings][#defining-settings] section above where the
+[Defining settings](#defining-settings) section above where the
 registration takes place. Here we call the settings model. Then
 the model is asked to retrieve value for particular setting. If
 the value is not defined - the default will be `false`.

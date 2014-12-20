@@ -192,14 +192,17 @@ class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
      * as possible.
 	 */
 	protected function _register_actions( Ai1ec_Event_Dispatcher $dispatcher ) {
+
         /**
+         * =====================================================================
+         *                          USING DISPATCHER
+         * =====================================================================
          * The $dispatcher (class name `Ai1ec_Event_Dispatcher`) is provided by
          * the Core to make it easier to bind to actions.
          * It has methods `register_action` which corresponds to WordPress native
          * [`add_action`](http://codex.wordpress.org/Function_Reference/add_action)
          * and `register_filter` (corresponds to 
          * [`add_filter`](http://codex.wordpress.org/Function_Reference/add_filter)).
-         * --
          * The difference lies in the second argument. As you see bellow - it's an
          * array with two elements. First being path name (remember *Class Loading*
          * section from the introduction) to your class and the second - method name
@@ -219,7 +222,7 @@ class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
 		);
         /**
          * Here is shown the interaction with settings model. Remember the
-         * [Defining settings][#defining-settings] section above where the
+         * [Defining settings](#defining-settings) section above where the
          * registration takes place. Here we call the settings model. Then
          * the model is asked to retrieve value for particular setting. If
          * the value is not defined - the default will be `false`.
