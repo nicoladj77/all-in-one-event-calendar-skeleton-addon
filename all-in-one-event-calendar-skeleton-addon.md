@@ -23,7 +23,7 @@ classes. This way you will avoid collisions with other developers.
 
 Plugin Name
 ===========
-This is a convenience constant - it allows to not repeat yourself when you
+This is a convenience constant - it allows you to avoid repeating yourself when you
 need to use plugin name, like in loading text domain (for translations) and
 similar.
 ```php
@@ -41,8 +41,8 @@ define( 'AI1ECSA_VERSION',     '0.0.9.2' );
 
 Core Debug
 ==========
-There is one feature, which you may find useful during development, which is
-called Core debug. You may enable it by adding the following line to your
+There is one feature, called Core debug, which you may find useful during development. 
+You may enable it by adding the following line to your
 [`wp-config.php`](http://codex.wordpress.org/Editing_wp-config.php)) file:
 ```php
 define( 'AI1EC_DEBUG', true );
@@ -62,7 +62,7 @@ you are using Git or similar - it is easiet to create empty file in it called
 EMPTY - then it will be always versioned).` Your classes are collected when
 you refresh any page with [Core debug](#core-debug) mode enabled.
 
-Now that class loading is enabled any class in your plugin might be loaded
+Now that class loading is enabled, any class in your plugin might be loaded
 using it's location.
 For exampleif you have a class in file `./app/controller/ai1ecsa.php` then
 you may load it using the following command:
@@ -103,11 +103,11 @@ function ai1ec_skeleton_addon( Ai1ec_Registry_Object $registry ) {
 
 Safeguard
 =========
-When user activates a plugin it's good to check that your plugin will be able
+When user activates a plugin it's a good idea to check that your plugin will be able
 to do anything. Otherwise you will waste user resources, and may even
 disappoint your user, as he will think that your plugin does nothing.
-Bellow is a piece of code, which you may copy as-is (just make sure to update
-prefixes accordingly. The lines which you are ought to modify are accomponied
+Below is a piece of code, which you may copy as-is (just make sure to update
+prefixes accordingly). The lines to modify are accompanied
 by a comment stating what to change and how.
 
 @wp_hook activation This function is triggered when a plugin is activated by
