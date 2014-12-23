@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>All-in-one-event-calendar-skeleton-addon by thenly</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>All-in-one-event-calendar-skeleton-addon</h1>
+          <h2>Ai1EC/2.0 skeleton add-on displaying how to integrate with Core</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/thenly/all-in-one-event-calendar-skeleton-addon/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/thenly/all-in-one-event-calendar-skeleton-addon/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/thenly/all-in-one-event-calendar-skeleton-addon" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="all-in-one-event-calendar-skeleton-addon" class="anchor" href="#all-in-one-event-calendar-skeleton-addon" aria-hidden="true"><span class="octicon octicon-link"></span></a>All-in-One Event Calendar Skeleton Addon</h1>
+
+<p>Please use this plugin as a guide to building your own Timely
+add-on. Start by reading the summary and notes in the file
+<a href="/all-in-one-event-calendar-skeleton-addon.md">all-in-one-event-calendar-skeleton-addon.md</a>. Next
+spend some time browsing the PHP files. Each one has detailed comments
+that will give you a good understanding of the code's purpose.</p>
+
+<p>Please also pay particular attention to the structure of the
+folders. This should be consistent across all add-ons, including
+yours. We structured our plugins following the
+<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC architectural pattern</a>. It
+helps you create a clean structure. You should get a good sense of
+what it means from browsing these files.</p>
+
+<p>Feel free to leave comments with feedback, questions, or improvement
+ideas you may have. We look forward to working with you on your
+add-on!</p>
+
+<p>The Timely Dev Team.</p>
+
+<h2>
+<a id="skeleton-addon-functionality" class="anchor" href="#skeleton-addon-functionality" aria-hidden="true"><span class="octicon octicon-link"></span></a>Skeleton Addon functionality</h2>
+
+<p>The All-in-One Event Calendar Skeleton Addon (or <em>Ai1ECSA</em> as we would
+code-name it) allows you to select a message to be prepended to the
+title of selected events. Primary feature might be to display
+consistent "Sold Out" message for all events. And be able to turn it's
+display site-wide whenever you decide.</p>
+
+<h3>
+<a id="settings" class="anchor" href="#settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Settings</h3>
+
+<p>First of all - there is a configuration section. It is created by
+using features provided by
+<a href="https://wordpress.org/plugins/all-in-one-event-calendar/">All-in-One Event Calendar</a>
+(or <em>Core</em>, as we call it). Skeleton Addon specific settings are found
+in WordPress Dashboard, under <em>Events</em> -&gt; <em>Settings</em> -&gt; <em>Add-ons</em> -&gt;
+<em>Skeleton</em>.</p>
+
+<p>One setting is named <code>Message to add to sold out events:</code>. This is the
+text value that will be prepended to selected events. It defaults to
+<code>Sold Out!</code>, but one may choose to use <code>GONE</code> or <code>LAST SEAT
+AVAILABLE</code> because it's just text.</p>
+
+<p>Another setting is <code>Disable messages everywhere?</code>. If a user checks this
+then the message will not be displayed anywhere.</p>
+
+<p>We see these two types as most common setting elements, so we
+feature them in the add-on. But you will find a description of other
+types in the PHP files,
+<a href="/app/controller/ai1ecsa.md">for example here</a>.</p>
+
+<h3>
+<a id="events-management" class="anchor" href="#events-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>Events management</h3>
+
+<p>When you activate the add-on it starts showing a checkbox with the
+label <code>Event is Sold Out</code> in post meta box. Post meta box appears for
+new and existing posts on top right corner of the page, next to
+<code>Publish</code> button.</p>
+
+<p>The user choice for this checkbox is stored in post meta. You will
+find more about postmeta management in add-ons
+<a href="/app/model/skeleton-soldout.md">here</a>.</p>
+
+<h3>
+<a id="displaying-events" class="anchor" href="#displaying-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Displaying events</h3>
+
+<p>If user has selected the aforementioned checkbox for any of the
+events - the value from the settings will be prepended, surrounded by
+square brackets, to the events title when event is being rendered on
+the frontend.</p>
+
+<p>So, if configured setting is <code>Sold Out!</code> and the event's title is
+<code>Tour of National History museum</code> and the checkbox is selected then in
+all views (Day, Month, Posterboard and others) including event details
+page it will be displayed as <code>[Sold Out!] Tour of National History
+museum</code>. That is unless second option in the settings is activated,
+which would disable that prefix.</p>
+        </section>
+
+        <footer>
+          All-in-one-event-calendar-skeleton-addon is maintained by <a href="https://github.com/thenly">thenly</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
