@@ -3,14 +3,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: All-in-One Event Calendar Skeleton Addon by Time.ly "
-"0.0.9.1\n"
+"0.0.9.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/all-in-one-event-calendar-"
 "skeleton-addon\n"
-"POT-Creation-Date: 2014-12-16 18:22:39+00:00\n"
+"POT-Creation-Date: 2014-12-29 13:40:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-12-16 19:22+0100\n"
+"PO-Revision-Date: 2014-12-29 14:40+0100\n"
 "Last-Translator: Timely <support@time.ly>\n"
 "Language-Team:\n"
 
@@ -26,57 +26,39 @@ msgstr ""
 "Could not activate the Skeleton add-on: All-in-One Event Calendar version %s "
 "or higher is required."
 
-#: app/controller/ai1ecsa.php:61
-msgid "Twitter"
-msgstr "Twitter"
+#: app/controller/ai1ecsa.php:83
+msgid "Skeleton"
+msgstr "Skeleton"
 
-#: app/controller/ai1ecsa.php:124
-msgid "Post event to Twitter"
-msgstr "Post event to Twitter"
+#: app/controller/ai1ecsa.php:139
+msgid "Message to add to sold out events:"
+msgstr "Message to add to sold out events:"
 
-#: app/controller/ai1ecsa.php:381
-msgid "Application Consumer Key:"
-msgstr "Application Consumer Key:"
+#: app/controller/ai1ecsa.php:145
+msgid "Remember to make changes to an event once it is sold out."
+msgstr "Remember to make changes to an event once it is sold out."
 
-#: app/controller/ai1ecsa.php:392
-msgid "Application Consumer Secret:"
-msgstr "Application Consumer Secret:"
+#: app/controller/ai1ecsa.php:166
+msgid "Disable messages everywhere?"
+msgstr "Disable messages everywhere?"
 
-#: app/controller/ai1ecsa.php:394
+#: app/controller/ai1ecsa.php:170
 msgid ""
-"Use \"<em>%s</em>\" URL for <strong>Callback URL</strong> when configuring "
-"your <a href=\"https://dev.twitter.com/apps/new\">Twitter application</a>. "
-"After creating the application, change the permissions required to "
-"<strong>Read and Write</strong> on the <strong>Permissions</strong> tab in "
-"Twitter."
+"Please use this checkbox if you want to disable all \"sold out\" messages"
 msgstr ""
-"Use \"<em>%s</em>\" URL for <strong>Callback URL</strong> when configuring "
-"your <a href=\"https://dev.twitter.com/apps/new\">Twitter application</a>. "
-"After creating the application, change the permissions required to "
-"<strong>Read and Write</strong> on the <strong>Permissions</strong> tab in "
-"Twitter."
+"Please use this checkbox if you want to disable all \"sold out\" messages"
 
-#: app/controller/ai1ecsa.php:410
-msgid "Time to notification before event start:"
-msgstr "Time to notification before event start:"
-
-#: app/controller/ai1ecsa.php:412
-msgid ""
-"Announcements will be posted to Twitter this long before start of event. "
-"Enter time in seconds (default behavior), or use suffixes, for example: "
-"<strong>3h</strong> = <em>3 hours</em>; <strong>1d</strong> = <em>1 day</em>."
-msgstr ""
-"Announcements will be posted to Twitter this long before start of event. "
-"Enter time in seconds (default behavior), or use suffixes, for example: "
-"<strong>3h</strong> = <em>3 hours</em>; <strong>1d</strong> = <em>1 day</em>."
+#: app/controller/skeleton.php:66
+msgid "Event is Sold Out"
+msgstr "Event is Sold Out"
 
 #. Plugin Name of the plugin/theme
 msgid "All-in-One Event Calendar Skeleton Addon by Time.ly"
 msgstr "All-in-One Event Calendar Skeleton Addon by Time.ly"
 
-#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.1)  #-#-#-#-#
+#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.3)  #-#-#-#-#
 #. Plugin URI of the plugin/theme
-#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.1)  #-#-#-#-#
+#. #-#-#-#-#  all-in-one-event-calendar-skeleton-addon.pot (All-in-One Event Calendar Skeleton Addon by Time.ly 0.0.9.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 msgid "http://time.ly/"
 msgstr "http://time.ly/"
