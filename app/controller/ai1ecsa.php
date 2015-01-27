@@ -57,7 +57,7 @@ class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
      * the constant which you defined in the base plugin file.
      */
 	public function get_version() {
-		return AI1ECTI_VERSION;
+		return AI1ECSA_VERSION;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Ai1ec_Controller_Ai1ecsa extends Ai1ec_Base_License_Controller {
      * to diagnose (detect) add-on related actions.
      */
 	public function get_file() {
-		return AI1ECTI_FILE;
+		return AI1ECSA_FILE;
 	}
 
 	/**
